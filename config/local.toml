@@ -1,0 +1,4 @@
+PORT=8888
+HOST="localhost"
+DEBUG=true
+ALLOWED_ORIGINS =["*"]
