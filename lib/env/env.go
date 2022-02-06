@@ -85,6 +85,11 @@ func IsDebug() bool {
 	return viper.GetBool("DEBUG")
 }
 
+// IsDevelop ... very self-explanatory
+func IsDevelop() bool {
+	return viper.GetString("ENV") == "dev"
+}
+
 func GetURLAuthority() string {
 	host := viper.GetString("host")
 	if host == "" {

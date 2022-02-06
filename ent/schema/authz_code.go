@@ -28,12 +28,18 @@ func (AuthCode) Fields() []ent.Field {
 		field.Text("client_id").
 			SchemaType(textSchema).
 			NotEmpty(),
+		field.JSON("scopes", []string{}).
+			Optional(),
 		field.JSON("response_type", []string{}).
 			Optional(),
+		field.Text("nonce").
+			SchemaType(textSchema).
+			NotEmpty(),
+		field.Text("redirect_uri").
+			SchemaType(textSchema).
+			NotEmpty(),
 		field.Time("expiry").
 			SchemaType(timeSchema),
-		field.Text("redirect_uri").
-			SchemaType(textSchema),
 		field.Text("code_challenge").
 			SchemaType(textSchema).
 			Default("").

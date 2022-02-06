@@ -2,7 +2,7 @@ package middlware
 
 import (
 	"net/http"
-	env "oauth-az/lib"
+	"oauth-az/lib/env"
 
 	"github.com/rs/cors"
 )

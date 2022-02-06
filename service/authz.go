@@ -2,13 +2,14 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/url"
 )
 
 type Authz interface {
-	AuthorizeClient(w http.ResponseWriter, r *http.Request)
-	IssueAccessToken(w http.ResponseWriter, r *http.Request)
+	AuthorizeRequest(w http.ResponseWriter, r *http.Request)
+	TokenRequest(w http.ResponseWriter, r *http.Request)
 }
 
 type authz struct {
@@ -22,11 +23,13 @@ func NewAuthzService(ctx context.Context) Authz {
 	return &authz{ctx}
 }
 
-func (s *authz) AuthorizeClient(w http.ResponseWriter, r *http.Request) {
+func (s *authz) AuthorizeRequest(w http.ResponseWriter, r *http.Request) {
 	params := r.URL.Query()
-	//clientID := params.Get("client_id")
-	//responseType := params.Get("response_type")
-	//scope := params.Get("scope")
+	clientID := params.Get("client_id")
+	responseType := params.Get("response_type")
+	scope := params.Get("scope")
+	fmt.Println(clientID, responseType, scope)
+
 	redirectUri, err := url.ParseRequestURI(params.Get("redirect_uri"))
 	state := params.Get("state")
 	//nonce := params.Get("nonce")
@@ -53,4 +56,4 @@ func (s *authz) AuthorizeClient(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Location", q.Encode())
 }
 
-func (s *authz) IssueAccessToken(w http.ResponseWriter, r *http.Request) {}
+func (s *authz) TokenRequest(w http.ResponseWriter, r *http.Request) {}

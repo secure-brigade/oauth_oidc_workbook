@@ -25,6 +25,13 @@ mod-download:
 mod-tidy:
 	@go mod tidy
 
+# migrate-up: migrate tables
+migrate-up: gen-model-from-schema migrate-schema
+gen-model-from-schema:
+	@go generate ./ent
+migrate-schema:
+	@go run migration/main.go
+
 ## $(GO_PATH)/bin/air: download tool for live reloading
 $(GO_PATH)/bin/air:
 	@go get -u github.com/cosmtrek/air

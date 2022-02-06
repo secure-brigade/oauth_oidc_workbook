@@ -36,6 +36,11 @@ func (AuthRequest) Fields() []ent.Field {
 			SchemaType(textSchema),
 		field.String("nonce").
 			SchemaType(textSchema),
+		field.Text("state").
+			SchemaType(textSchema),
+		field.Bool("logged_in"),
+		field.Time("expiry").
+			SchemaType(timeSchema),
 		field.Text("code_challenge").
 			SchemaType(textSchema).
 			Default("").

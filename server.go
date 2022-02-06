@@ -4,7 +4,8 @@ import (
 	"context"
 	"log"
 	"net/http"
-	env "oauth-az/lib"
+	"oauth-az/lib/env"
+	"oauth-az/lib/storage"
 	"oauth-az/middlware"
 	"oauth-az/service"
 
@@ -18,6 +19,9 @@ func init() {
 func main() {
 	ctx := context.Background()
 
+	c := storage.NewSQLite()
+	defer c.Close()
+
 	router := chi.NewRouter()
 	router.Use(middlware.CORS())
 	router.Get("/hc", func(w http.ResponseWriter, r *http.Request) {
@@ -25,8 +29,8 @@ func main() {
 	})
 
 	authorizeService := service.NewAuthzService(ctx)
-	router.Get("/authorize", authorizeService.AuthorizeClient)
-	router.Post("/token", authorizeService.IssueAccessToken)
+	router.Get("/authorize", authorizeService.AuthorizeRequest)
+	router.Post("/token", authorizeService.TokenRequest)
 
 	log.Println("connect to http" + "://" + env.GetURLAuthority())
 	log.Fatal(http.ListenAndServe(env.GetURLAuthority(), router))
